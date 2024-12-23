@@ -1,3 +1,5 @@
+using API.DTOs;
+using API.Interfaces;
 using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,29 +10,52 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class CodeController : ControllerBase
 {
-    [HttpGet]
-    public IActionResult GetAllCodeParts()
+    private readonly ICodeRepository _codeRepository;
+
+    public CodeController(ICodeRepository codeRepository)
     {
-        return NotFound();
+        _codeRepository = codeRepository;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<CodePart>>> GetAllCodeParts()
+    {
+        var codeParts = await _codeRepository.GetCodePartsAsync();
+        return Ok(codeParts);
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetCodePartById(int id)
+    public async Task<ActionResult<CodePart>> GetCodePartById(int id)
     {
-        return NotFound();
+        var codePart = await _codeRepository.GetCodePartByIdAsync(id);
+
+        if(codePart is null)
+            return NotFound();
+        
+        return Ok(codePart);
     }
 
     [Authorize]
     [HttpPost]
-    public IActionResult AddCodePart()
+    public async Task<ActionResult> AddCodePart(NewCodePartDto newCodePart)
     {
-        return NotFound();
+        await _codeRepository.AddCodePartAsync(newCodePart);
+        
+        if(await _codeRepository.CompleteAsync()) 
+            return Created();
+        
+        return BadRequest();
     }
 
     [Authorize]
     [HttpDelete("{id}")]
-    public IActionResult DeleteCodePart(int id)
+    public async Task<ActionResult> DeleteCodePart(int id)
     {
-        return NotFound();
+        await _codeRepository.DeleteCodePartAsync(id);
+        
+        if(await _codeRepository.CompleteAsync()) 
+            return NoContent();
+        
+        return BadRequest();
     }
 }
