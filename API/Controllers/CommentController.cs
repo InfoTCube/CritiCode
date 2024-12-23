@@ -6,30 +6,24 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CodeController : ControllerBase
+public class CommentController : ControllerBase
 {
-    [HttpGet]
-    public IActionResult GetAllCodeParts()
-    {
-        return NotFound();
-    }
-
     [HttpGet("{id}")]
-    public IActionResult GetCodePartById(int id)
+    public IActionResult GetCommentById(int id)
     {
         return NotFound();
     }
 
     [Authorize]
     [HttpPost]
-    public IActionResult AddCodePart()
+    public IActionResult AddCommentPart(int reviewId)
     {
         return NotFound();
     }
 
     [Authorize]
     [HttpDelete("{id}")]
-    public IActionResult DeleteCodePart(int id)
+    public IActionResult DeleteComment(int id)
     {
         return NotFound();
     }

@@ -6,30 +6,24 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CodeController : ControllerBase
+public class ReviewController : ControllerBase
 {
-    [HttpGet]
-    public IActionResult GetAllCodeParts()
-    {
-        return NotFound();
-    }
-
     [HttpGet("{id}")]
-    public IActionResult GetCodePartById(int id)
+    public IActionResult GetReviewById(int id)
     {
         return NotFound();
     }
 
     [Authorize]
     [HttpPost]
-    public IActionResult AddCodePart()
+    public IActionResult AddReviewForCodePart(int codePartId)
     {
         return NotFound();
     }
 
     [Authorize]
     [HttpDelete("{id}")]
-    public IActionResult DeleteCodePart(int id)
+    public IActionResult DeleteReview(int id)
     {
         return NotFound();
     }
